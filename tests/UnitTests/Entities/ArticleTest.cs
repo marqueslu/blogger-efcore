@@ -5,6 +5,7 @@ using blogger.api.Models;
 using ExpectedObjects;
 using UnitTests._utils;
 using UnitTests.Builders;
+using Bogus;
 
 namespace UnitTests
 {
@@ -20,6 +21,11 @@ namespace UnitTests
         public ArticleTest(ITestOutputHelper output)
         {
             _output = output;
+            var fake = new Faker();
+            _id = fake.Random.Number();
+            _title = fake.Lorem.Sentence();
+            _content = fake.Lorem.Paragraph();
+            _output.WriteLine(_content);
         }
 
         public void Dispose()
