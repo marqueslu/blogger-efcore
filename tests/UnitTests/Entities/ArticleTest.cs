@@ -4,6 +4,8 @@ using Xunit.Abstractions;
 using blogger.api.Models;
 using ExpectedObjects;
 using UnitTests._utils;
+using UnitTests.Builders;
+
 namespace UnitTests
 {
     public class ArticleTest : IDisposable
@@ -46,35 +48,18 @@ namespace UnitTests
         [InlineData(null)]
         public void TheArticleMustNotHaveAInvalidTitle(string invalidTitle)
         {
-            var expectedArticle = new
-            {
-                Id = 1,
-                Title = "Game of Thrones",
-                Content = "This TV serie is awesome.",
-                CreatedAt = new DateTime(),
-                UpdatedAt = new DateTime()
-            };
-
             Assert.Throws<ArgumentException>(() =>
-                new Article(expectedArticle.Id, invalidTitle, expectedArticle.Content, expectedArticle.CreatedAt, expectedArticle.UpdatedAt))
+            ArticleBuilder.New().WithTitle(invalidTitle).Build())
                 .WithMessage("Invalid title");
         }
 
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        public void TheArticleMustNotHaveAInvalidContent(string invalidContent){
-            var expectedArticle = new
-            {
-                Id = 1,
-                Title = "Game of Thrones",
-                Content = "This TV serie is awesome.",
-                CreatedAt = new DateTime(),
-                UpdatedAt = new DateTime()
-            };
-
+        public void TheArticleMustNotHaveAInvalidContent(string invalidContent)
+        {
             Assert.Throws<ArgumentException>(() =>
-                new Article(expectedArticle.Id, expectedArticle.Title, invalidContent, expectedArticle.CreatedAt, expectedArticle.UpdatedAt))
+                ArticleBuilder.New().WithContent(invalidContent).Build())
                 .WithMessage("Invalid Content");
         }
     }
