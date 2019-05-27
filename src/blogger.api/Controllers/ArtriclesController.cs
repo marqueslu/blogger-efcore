@@ -21,6 +21,7 @@ public class ArticlesController : Controller
     }
 
     [Route("v1/articles/{id}")]
+    [HttpGet]
     public Article GetById(int id)
     {
         return _articleRepository.GetById(id);
