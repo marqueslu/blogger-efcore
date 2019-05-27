@@ -37,15 +37,14 @@ namespace UnitTests
         public void MustCreateArticle()
         {
             var expectedArticle = new
-            {
-                Id = 1,
+            {                
                 Title = "Game of Thrones",
                 Content = "This TV serie is awesome.",
                 CreatedAt = new DateTime(),
                 UpdatedAt = new DateTime()
             };
 
-            var article = new Article(expectedArticle.Id, expectedArticle.Title, expectedArticle.Content, expectedArticle.CreatedAt, expectedArticle.UpdatedAt);
+            var article = new Article(expectedArticle.Title, expectedArticle.Content, expectedArticle.CreatedAt, expectedArticle.UpdatedAt);
             expectedArticle.ToExpectedObject().ShouldMatch(article);
         }
 
