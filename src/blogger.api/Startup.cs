@@ -21,7 +21,7 @@ namespace blogger.api
         {
             services.AddMvc();
             services.AddScoped<BloggerDataContext, BloggerDataContext>();
-            services.AddTransient<IArticlerepository, ArticleRepository>();
+            services.AddTransient<IArticleRepository, ArticleRepository>();
             services.AddSwaggerGen(x => {
                 x.SwaggerDoc("v1", new Info { Title = "Blogger", Version = "v1" });
             });

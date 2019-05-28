@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace blogger.api.Repositories
 {
-    public class ArticleRepository : IArticlerepository
+    public class ArticleRepository : IArticleRepository
     {
         private readonly BloggerDataContext _context;
 
@@ -48,6 +48,11 @@ namespace blogger.api.Repositories
         {
             _context.Articles.Remove(article);
             _context.SaveChanges();
+        }
+
+        public Article GetByTitle(string title)
+        {
+            return _context.Articles.Find(title);
         }
     }
 }

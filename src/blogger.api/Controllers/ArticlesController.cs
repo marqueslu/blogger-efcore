@@ -7,8 +7,9 @@ using System.Collections.Generic;
 
 public class ArticlesController : Controller
 {
-    private readonly IArticlerepository _articleRepository;
-    public ArticlesController(IArticlerepository articleRepository)
+    private readonly IArticleRepository _articleRepository;
+
+    public ArticlesController(IArticleRepository articleRepository)
     {
         _articleRepository = articleRepository;
     }
@@ -40,6 +41,11 @@ public class ArticlesController : Controller
                 Message = "It was not possible to create an article."
             };
         }
+
+        var articleAlreadySaved = _articleRepository.GetByTitle(model.Title);
+
+        if(articleAlreadySaved != null)
+            throw new ArgumentException("This title is already taken");
 
         var article = new Article(model.Title, model.Content, DateTime.Now, DateTime.Now);
         _articleRepository.save(article);
@@ -101,5 +107,5 @@ public class ArticlesController : Controller
             Message = "Article deleted with success.",
             Data = article
         };
-    }
+    }    
 }
