@@ -44,8 +44,15 @@ public class ArticlesController : Controller
 
         var articleAlreadySaved = _articleRepository.GetByTitle(model.Title);
 
-        if(articleAlreadySaved != null)
-            throw new ArgumentException("This title is already taken");
+        if (articleAlreadySaved != null)
+        {
+            return new ResultViewModel
+            {
+                Success = false,
+                Message = "This title has already taken.",
+                Data = null
+            };
+        }
 
         var article = new Article(model.Title, model.Content, DateTime.Now, DateTime.Now);
         _articleRepository.save(article);
@@ -107,5 +114,5 @@ public class ArticlesController : Controller
             Message = "Article deleted with success.",
             Data = article
         };
-    }    
+    }
 }

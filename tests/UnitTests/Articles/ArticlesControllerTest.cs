@@ -9,6 +9,7 @@ using Xunit;
 using Bogus;
 using UnitTests.Builders;
 using UnitTests._utils;
+using ExpectedObjects;
 
 namespace UnitTests
 {
@@ -38,12 +39,23 @@ namespace UnitTests
             _articleRepositoryMock.Verify(r => r.save(It.IsAny<Article>()));
         }
 
+        [Fact]
         public void MustNotAddAnArticleWithDuplicatedTitle()
         {
             var articleAlreadySaved = ArticleBuilder.New().WithTitle(_articleModel.Title).Build();
             _articleRepositoryMock.Setup(r => r.GetByTitle(_articleModel.Title)).Returns(articleAlreadySaved);
 
-            Assert.Throws<ArgumentException>(() => _articlesController.Post(_articleModel)).WithMessage("This title is already taken");
+            var result = _articlesController.Post(_articleModel);
+            var expectedResult = new ResultViewModel
+            {
+                Success = false,
+                Message = "This title has already taken.",
+                Data = null
+            };
+            
+            expectedResult.ToExpectedObject().ShouldMatch(result);
+
+            //Assert.Throws<ArgumentException>(() => _articlesController.Post(_articleModel)).WithMessage("This title is already taken");
         }
     }
 }
