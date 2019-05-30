@@ -52,7 +52,10 @@ namespace blogger.api.Repositories
 
         public Article GetByTitle(string title)
         {
-            return _context.Articles.Find(title);
+            var articleTitle = _context.Articles.Where(x => x.Title == title);
+            if (articleTitle.Any())
+                return articleTitle.FirstOrDefault();
+            return null;
         }
     }
 }
